@@ -1,0 +1,109 @@
+{% extends 'logged.html' %}
+{% block code_block %}
+{% load static %}
+    <div class="container">
+        <div class="row">
+            
+            <div class="column">
+                <div class="form-group"> 
+                    {% if messages %}
+                      <ul class = "messages">
+                        {% for message in messages %}
+                          <li>
+                            <div class="alert alert-success">{{message}}</div>
+                          </li>
+                        {% endfor %}
+            
+                      </ul>
+                    {% endif %}
+                  </div>
+                  <div style="text-align:center">
+                        <h2>Submit a ticket</h2>
+                        <h3> 
+                        <p>Ticket Information</p></h3>
+                  </div>
+                  <form action="/newticket" style="width: 500px;" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group"><label for="dname">Department <span>*</span></label>
+                        <input list="inpt" name="department" id="dname" class="form-control" placeholder="-None-" required>
+                        <datalist id="inpt">
+                            <option value="PWSLab DevOps Support">
+                            <option value="iSupport">
+                        </datalist></div>
+                    <div class="form-group"><label for="Cname">Category <span>*</span></label>
+                      <input list="cpt" name="category" id="Cname" class="form-control" placeholder="-None-" required>
+                        <datalist id="cpt">
+                            <option value="NEW Project CI/CD Pipeline Setup"></option>
+                            
+                                <option value="Update CI/CD Pipeline Configuration"></option>
+                                    <option value="DevSecOps Pipeline Setup"></option>
+                                        <option value="Automated Deployment failure"></option>
+                                        <option value="Docker and Containers"></option>
+                                        <option value="Kubernetes Deployments (like EKS/GCP)"></option>
+                                        <option value="Git Source control"></option>
+                                        <option value="PWSLab server not responding (502/503 errors)"></option>
+                                        <option value="PWSLab Runner not working (jobs not running)"></option>
+                                        <option value="User management and Project access"></option>
+                                        <option value="Cloud Integration Consultation - AWS/GCP/Azure"></option>
+                                        <option value="Others"></option>
+                                    
+                                
+                        </datalist></div>
+                        
+                    <div class="form-group">
+                            <label for="urls">PWSLab Project URL<span> *</span></label>
+                            <input type="text" id="urls" class="form-control" name="url" required>
+                    </div>
+                    <div class="form-group">
+                            <label for="subject">Subject<span> *</span></label>
+                            <input type="text" id="subject" class="form-control" name="subject" required>
+                    </div>  
+                    <div class="form-group">
+                            <label for="Description">Description <span>*</span></label>
+                            <textarea class="form-control" name = 'description' style="height: 150px;"></textarea>
+                    </div>
+                    <h5>Contact Details</h5>
+                    <div class="form-group">
+                        <label for="contact">Contact Name <span>*</span></label>
+                        <input type="text" id="contact" class="form-control" name="contact" required>
+                    </div>               
+                    <div class="form-group">
+                        <label for="email">Email <span>*</span></label>
+                        <input type="email" id="lname" class="form-control" name="email" placeholder="Your Email.." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone <span>*</span></label>
+                        <input type="text" id="Phone" class="form-control" name="Phone" required>
+                    </div>
+                    <h5>Additional Information</h5>
+                    <div class="form-group">
+                        <label for="Proirity">Priority <span>*</span></label>
+                        <input list="inputs" name="Priority" id="prior" class="form-control" placeholder="-None-" required>
+                        <datalist id="inputs">
+                            <option value="High - Production System Down"></option>
+                            <option value="Medium - System Impaired">
+                            <option value="Low - General Guidance"></option>
+                        </datalist>
+                    </div> 
+                    <div class="form-group">
+                            <input type="file" name='file' multiple>
+                        </div>
+                            <label for="infile"><h5>Attach a File</h5><p>(Up to 20 MB)</p> </label>
+
+                    
+                <div class="form-group">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </form>
+                  
+            </div>
+
+            <br><br>
+            
+        </div>
+        
+    </div>
+    
+
+{% endblock %}
+        
