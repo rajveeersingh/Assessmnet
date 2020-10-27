@@ -1,11 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
-    <body>
+    <head>
+        <title>Details</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+     
+    </head>
+    <body style="background-color: azure; " >
+        {% if user.is_authenticated %}
+    <header>
+        <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+            <!-- SideNav slide-out button -->
+            <div class="float-left">
+              <a href="#" data-activates="slide-out" class="button-collapse"><i class="fas fa-bars"></i></a>
+            </div>
+            <ul class="nav navbar-nav nav-flex-icons ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/newticket"><i class="fas fa-user"></i>Add a ticket</a>
+                  </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/detail"><i class="fas fa-user"></i>Details</a>
+                  </li>                
+              <li class="nav-item">
+                <a class="nav-link"><i class="far fa-comments"></i> Hi!, <h5>{{user.first_name}}</h5></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout"><i class="fas fa-user"></i>Logout</a>
+              </li>
+
+            </ul>
+          </nav>}
+    </header>
+	{% block code_block %}
+    {% endblock %}
+    {% else %}
+
+    
+    <div class="container"> 
+        <br><br><br><br><br>  
+        <div class="text-center"> 
+            <h1 style="color:black;text-align:center;">Log in first</h1>
+            <a href="/"><button type="button" class="btn btn-primary">Login</button></a> 
+
+        </div> 
+  
+  
+    </div>
+    
+    {% endif %}
         <h1>Ticket Details</h1>
-        Discription: <p>{{data.Description}}</p>
-        Ticket Id :<p>{{data.id}}</p>
-        Subject :<p>{{data.subject}}</p>
-        <h2>Welcome {{user.first_name}}, your ticket is ready</h2>    
+      {% for i in data %}  
+         <p>Discription: {{i.Description}}</p>
+        <p>Ticket Id : {{i.id}}</p>
+        <p>Subject : {{i.subject}}</p>
+        {% endfor %} 
+        <h2>Welcome {{user.first_name}}, your ticket is ready</h2>   
+        
     </body>
 </html>
