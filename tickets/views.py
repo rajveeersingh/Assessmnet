@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect, HttpResponseRedirect, HttpResponse    
 from django.views import View
-from .models import newticket
+from django.db.models import Q
+from .models import newtickets
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
 # Create your views here.
@@ -8,7 +9,6 @@ import random
 
 class Login(View):
     def get(self,request):
-        # return redirect('/detail')
         return render(request,'login.html')
     def post(self,request):
         username = request.POST['username']
@@ -16,7 +16,7 @@ class Login(View):
         user = auth.authenticate(username=username,password=passwd)
         if user is not None:
             auth.login(request,user)
-            return render(request,'detail.html')
+            return redirect('/detail')
         else:
             messages.info(request,'Invelid credentials')
             return redirect('/')
@@ -29,7 +29,7 @@ class Register(View):
         username = request.POST['username']
         passwd = request.POST['pass']
         email = request.POST['email']
-        uniq_id = random.randint()
+
         if User.objects.filter(username=username).exists():
             messages.info(request,'Username Already Taken')
             print('username')
@@ -39,7 +39,7 @@ class Register(View):
             print('email')
             return HttpResponseRedirect('/register')
         else:
-            user = User.objects.create_user(username=username,password=passwd,first_name=name,email=email,id=uniq_id)
+            user = User.objects.create_user(username=username,password=passwd,first_name=name,email=email)
             user.save()
             return render(request,'newTickets.html')
 
@@ -63,20 +63,13 @@ class NewTickets(View):
         phone =request.POST['Phone']
         priority =request.POST['Priority']
         file =request.POST['file']
-        obj1 = newticket(Department=department,category=category,url=url,Contact_name=contact,Description=description,subject=subject,email=email,phone=phone,priority=priority,file=file)
+        userid = request.user.id
+        obj1 = newtickets(Department=department,category=category,url=url,Contact_name=contact,Description=description,subject=subject,email=email,phone=phone,priority=priority,file=file,uid=userid)
         obj1.save()
-        # print(department,category,url)
-        return render(request,'detail.html')
+        messages.info(request,'Information submitted')
+        return redirect('/newticket')
 class Detail(View):
     def get(self,request):
-        uid = User.objects.filter(username=User.first_name)
-        for i in uid:
-            # id = i.id
-            print(i.id)
-            data1= newticket.objects.all()
-    #    for i in data1:
-            if id == i.id:
-              return render(request,'detail.html',{'data':data1})
-            else:
-                return redirect("/detal")
-        return redirect("/detail")
+        data1= newtickets.objects.raw('SELECT * FROM tickets_newtickets ')
+        
+        return render(request,"detail.html",{'data':data1})

@@ -6,12 +6,29 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <style>
+          table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
+          
+          td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          
+          tr:nth-child(even) {
+            background-color: #dddddd;
+          }
+          </style>
      
     </head>
-    <body style="background-color: azure; " >
+    <body style="background-color: aquamarine;" >
         {% if user.is_authenticated %}
     <header>
-        <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+        <nav style="background-color: bisque;" class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
             <!-- SideNav slide-out button -->
             <div class="float-left">
               <a href="#" data-activates="slide-out" class="button-collapse"><i class="fas fa-bars"></i></a>
@@ -24,15 +41,16 @@
                     <a class="nav-link" href="/detail"><i class="fas fa-user"></i>Details</a>
                   </li>                
               <li class="nav-item">
-                <a class="nav-link"><i class="far fa-comments"></i> Hi!, <h5>{{user.first_name}}</h5></a>
+                <a class="nav-link"><i class="far fa-comments"></i> User! <h5>{{user.first_name}}</h5></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/logout"><i class="fas fa-user"></i>Logout</a>
               </li>
 
             </ul>
-          </nav>}
+          </nav>
     </header>
+    <br><br><br><br>
 	{% block code_block %}
     {% endblock %}
     {% else %}
@@ -51,11 +69,25 @@
     
     {% endif %}
         <h1>Ticket Details</h1>
-      {% for i in data %}  
+        
+      <table>
+        <tr>
+          <th>Discription</th>
+          <th>Ticket Id</th>
+          <th>Subject</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+          <td>{{i.Description}}</td>
+          <td>{{i.id}}</td>
+          <td>{{i.subject}}</td>
+        </tr>
+      <!-- <div>
          <p>Discription: {{i.Description}}</p>
         <p>Ticket Id : {{i.id}}</p>
         <p>Subject : {{i.subject}}</p>
-        {% endfor %} 
+      </div> -->
+        {% endfor %}  
         <h2>Welcome {{user.first_name}}, your ticket is ready</h2>   
         
     </body>
